@@ -3,7 +3,7 @@
 This script retrieves and prints the temperature history data for
 a sensor over a specified range.
 To use it, run:
-./examples/sensors_history --t <TEMP_TYPE> --b <BEGIN_TIME> --i <INCREMENT> --e<END_TIME>,
+python sens_hist.py --t <TEMP_TYPE> --b <BEGIN_TIME> --i <INCREMENT> --e<END_TIME>,
 passing in sensor ID, begin time, increment size, and end time.
 Next steps: 
 1. print the data to a csv.
