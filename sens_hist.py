@@ -5,6 +5,7 @@ a sensor over a specified range.
 To use it, run:
 ./examples/sensors_history --t <TEMP_TYPE> --b <BEGIN_TIME> --i <INCREMENT> --e<END_TIME>,
 passing in sensor ID, begin time, increment size, and end time.
+Next steps: print the data to a csv.
 """
 from datetime import datetime
 import calendar
@@ -26,7 +27,7 @@ def get_sensors_history(t, b, i, e):
     # Get a sensor's temperature history at specified range 
 	# Values are multiplied by 1000 to get in ms
     end_ms = e*1000 
-    step_ms = i*1000
+    step_ms = i
     start_ms = b*1000
 	sensor_id = 
     group_id = 25328
