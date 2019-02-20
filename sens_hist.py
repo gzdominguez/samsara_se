@@ -31,7 +31,7 @@ def get_sensors_history(t, b, i, e):
     end_ms = e*1000 
     step_ms = i
     start_ms = b*1000
-	sensor_id = 
+    sensor_id = 212014918225862
     group_id = 25328
     series = [{"widgetId": sensor_id, "field": "probeTemperature"}]
     fill_missing = "withNull"
