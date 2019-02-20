@@ -1,0 +1,20 @@
+let
+    Source = Folder.Files("<Path to directory containing csv>"),
+    #"Filtered Hidden Files1" = Table.SelectRows(Source, each [Attributes]?[Hidden]? <> true),
+    #"Invoke Custom Function1" = Table.AddColumn(#"Filtered Hidden Files1", "Transform File from data", each #"Transform File from data"([Content])),
+    #"Renamed Columns1" = Table.RenameColumns(#"Invoke Custom Function1", {"Name", "Source.Name"}),
+    #"Removed Other Columns1" = Table.SelectColumns(#"Renamed Columns1", {"Source.Name", "Transform File from data"}),
+    #"Expanded Table Column1" = Table.ExpandTableColumn(#"Removed Other Columns1", "Transform File from data", Table.ColumnNames(#"Transform File from data"(#"Sample File"))),
+    #"Changed Type" = Table.TransformColumnTypes(#"Expanded Table Column1",{{"Source.Name", type text}, {"timestamp", type number}, {" series", type text}}),
+    #"Filtered Rows" = Table.SelectRows(#"Changed Type", each ([timestamp] <> null)),
+    #"Split Column by Delimiter" = Table.SplitColumn(#"Filtered Rows", " series", Splitter.SplitTextByDelimiter("[", QuoteStyle.Csv), {" series.1", " series.2"}),
+    #"Changed Type1" = Table.TransformColumnTypes(#"Split Column by Delimiter",{{" series.1", type text}, {" series.2", type text}}),
+    #"Removed Columns" = Table.RemoveColumns(#"Changed Type1",{" series.1"}),
+    #"Split Column by Delimiter1" = Table.SplitColumn(#"Removed Columns", " series.2", Splitter.SplitTextByDelimiter("]", QuoteStyle.Csv), {" series.2.1", " series.2.2"}),
+    #"Changed Type2" = Table.TransformColumnTypes(#"Split Column by Delimiter1",{{" series.2.1", Int64.Type}, {" series.2.2", type text}}),
+    #"Removed Columns1" = Table.RemoveColumns(#"Changed Type2",{" series.2.2"}),
+    #"Added Custom" = Table.AddColumn(#"Removed Columns1", "Temp (F)", each ([#" series.2.1"]*9/5000)+32),
+    #"Added Custom1" = Table.AddColumn(#"Added Custom", "Date_Time", each ([timestamp]/86400000)+25569-(8/24)),
+    #"Changed Type3" = Table.TransformColumnTypes(#"Added Custom1",{{"Date_Time", type datetime}})
+in
+    #"Changed Type3"
