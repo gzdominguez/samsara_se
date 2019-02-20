@@ -37,7 +37,7 @@ def get_sensors_history(t, b, i, e):
     fill_missing = "withNull"
 	
     params = samsara.HistoryParam(group_id, start_ms, end_ms, step_ms, series, fill_missing)
-	access_token = "dYmy4DpauFvADRPpwUxXA57HlvzsvM"
+    access_token = "dYmy4DpauFvADRPpwUxXA57HlvzsvM"
     history = client.get_sensors_history(access_token, params)
     for result in history.results:
         print '\ntimestamp: {}, series: {}'.format(result.time_ms, result.series)
