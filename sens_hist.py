@@ -39,9 +39,11 @@ def get_sensors_history(t, b, i, e):
     params = samsara.HistoryParam(group_id, start_ms, end_ms, step_ms, series, fill_missing)
     access_token = "dYmy4DpauFvADRPpwUxXA57HlvzsvM"
     history = client.get_sensors_history(access_token, params)
+    #write retreived data to csv
+    with open('/data/temp.csv', mode='w') as temp_csv:
+    temp_writer = csv.writer(temp_csv, delimiter=',', quotechar='"', quoting=csv.QUOTE_MINIMAL)
     for result in history.results:
-        print '\ntimestamp: {}, series: {}'.format(result.time_ms, result.series)
-
+        temp_writer.writerow([result.time_ms, result.series])
 
 if __name__ == "__main__":
     get_sensors_history()
