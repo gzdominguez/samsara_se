@@ -15,7 +15,7 @@ import click
 import samsara
 from samsara.apis import SamsaraClient
 
-
+#process command line arguments
 @click.command()
 @click.option('--t', type=str, required=True) #sensor ID
 @click.option('--b', type=int, required=True) #begin time
@@ -24,10 +24,10 @@ from samsara.apis import SamsaraClient
 
 
 def get_sensors_history(t, b, i, e):
-    # Create an instance of the SamsaraClient.
+    # SamsaraClient instance
     client = SamsaraClient()
     # Get a sensor's temperature history at specified range 
-	# Values are multiplied by 1000 to get in ms
+    # Values are multiplied by 1000 to get in ms
     end_ms = e*1000 
     step_ms = i
     start_ms = b*1000
@@ -35,7 +35,7 @@ def get_sensors_history(t, b, i, e):
     group_id = 25328
     series = [{"widgetId": sensor_id, "field": "probeTemperature"}]
     fill_missing = "withNull"
-	
+    
     params = samsara.HistoryParam(group_id, start_ms, end_ms, step_ms, series, fill_missing)
     access_token = "dYmy4DpauFvADRPpwUxXA57HlvzsvM"
     history = client.get_sensors_history(access_token, params)
