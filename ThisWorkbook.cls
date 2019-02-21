@@ -13,12 +13,10 @@ Sub GenerateTempReport()
 Dim TimeStrt As Double
 Dim TimeStop As Double
 Dim TimeStep As String
-Dim TempType As String
 Dim EpochStrt As Long
 Dim EpochStop As Long
 Dim EpochStep As Integer
 Dim Ttype As String
-
 ''With statements enable for quicker compiling by disabling
 ''unneccessary functions
 With Application
@@ -31,7 +29,6 @@ End With
     TimeStrt = Worksheets("Dashboard").Cells(6, "M").Value
     TimeStop = Worksheets("Dashboard").Cells(7, "M").Value
     TimeStep = Worksheets("Dashboard").Cells(8, "M").Value
-    TempType = Worksheets("Dashboard").Cells(9, "M").Value
 
 ''Time Values converted from Excel Date to Epoch -- see Epoch function below
     EpochStrt = Epoch(TimeStrt)
@@ -47,16 +44,8 @@ End With
             EpochStep = 60000
     End Select
 
-''Switch Case for setting temperature type
-    Select Case TempType
-        Case "Ambient"
-            Ttype = "a"
-        Case "Probe"
-            Ttype = "p"
-    End Select
-
 ''sens_hist.py call to query update table from csv
-Shell (<full path of python.exe> " & "<full put of sens_hist.py> --t " & Ttype & " --b " & EpochStrt & " --i " & EpochStep & " --e " & EpochStop)
+Shell (<full path of python.exe> " & "<full put of sens_hist.py> --b " & EpochStrt & " --i " & EpochStep & " --e " & EpochStop)
    
    
 ''wait function to allow for script to capture data (10 secs)
