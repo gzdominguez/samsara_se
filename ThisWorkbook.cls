@@ -10,13 +10,16 @@ Sub GenerateTempReport()
 ''''''''''''''''''''''''''''''''''''''''''''''''''''''
 
 ''variable assignments
-Dim TimeStrt As Double
-Dim TimeStop As Double
+Dim TimeStrt As Date
+Dim TimeStop As Date
+Dim TDstrt As Double
+Dim TDstop As Double
 Dim TimeStep As String
-Dim EpochStrt As Long
-Dim EpochStop As Long
-Dim EpochStep As Integer
-Dim Ttype As String
+Dim EpochStrt As Variant
+Dim EpochStop As Variant
+Dim EpochStep As Variant
+Dim Path As String
+
 ''With statements enable for quicker compiling by disabling
 ''unneccessary functions
 With Application
@@ -29,53 +32,50 @@ End With
     TimeStrt = Worksheets("Dashboard").Cells(6, "M").Value
     TimeStop = Worksheets("Dashboard").Cells(7, "M").Value
     TimeStep = Worksheets("Dashboard").Cells(8, "M").Value
-
+    MsgBox TimeStrt
+    
+''Convert datatype from Date to Double
+    TDstrt = CDbl(TimeStrt)
+    TDstop = CDbl(TimeStop)
+    
 ''Time Values converted from Excel Date to Epoch -- see Epoch function below
     EpochStrt = Epoch(TimeStrt)
     EpochStop = Epoch(TimeStop)
 
 ''Switch Case for setting step size
     Select Case TimeStep
-        Case "milliseconds"
+        Case Is = "milliseconds"
             EpochStep = 1
-        Case "seconds"
+        Case Is = "seconds"
             EpochStep = 1000
-        Case "minutes"
+        Case Is = "minutes"
             EpochStep = 60000
     End Select
-
+    
 ''sens_hist.py call to query update table from csv
-Shell (<full path of python.exe> " & "<full put of sens_hist.py> --b " & EpochStrt & " --i " & EpochStep & " --e " & EpochStop)
-   
-   
+''update the location of the python executable and the sens_hist.py script as necessary
+    Path = "C:/Users/gd/AppData/python27/python.exe C:/Users/gd/scripts/sens_hist.py --b " & EpochStrt & " --i " & EpochStep & " --e " & EpochStop
+    MsgBox (Path)
+    Shell (Path)
+
 ''wait function to allow for script to capture data (10 secs)
 Application.Wait Now + #12:00:10 AM#
 
-''refresh the power query of the csv file to ensure most recen
-refresh
-
+''refresh the power query of the csv file to ensure most recent
+'''''''''''''''''''''''''''''''''''''''''''''''''''''
+   ThisWorkbook.RefreshAll
+   
 With Application
     .Calculation = xlCalculationAutomatic
     .DisplayAlerts = True
     .ScreenUpdating = True
 End With
-
 End Sub
 
-Function Epoch(Time As Double)
+
+Function Epoch(Time As Variant)
 '''''''''''''''''''''''''''''''''''''''''''''''''''''
 ''Function Converts Excel Date to Epoch Time
 '''''''''''''''''''''''''''''''''''''''''''''''''''''
 Epoch = (Time + (8 / 24) - 25569) * 86400
 End Function
-
-Sub refresh()
-'''''''''''''''''''''''''''''''''''''''''''''''''''''
-' Refresh temp_history sheet, then Dashboard sheet
-'''''''''''''''''''''''''''''''''''''''''''''''''''''
-    Sheets("temp_history").Select
-    Range("B20").Select
-    Selection.ListObject.QueryTable.refresh BackgroundQuery:=False
-    ActiveWorkbook.RefreshAll
-    Sheets("Dashboard").Select
-End Sub
