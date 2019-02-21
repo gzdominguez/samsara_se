@@ -12,38 +12,40 @@ from datetime import datetime
 import calendar
 import click
 import samsara
+import csv
 from samsara.apis import SamsaraClient
 
-#process command line arguments
+
 @click.command()
-@click.option('--t', type=str, required=True) #sensor ID
-@click.option('--b', type=int, required=True) #begin time
-@click.option('--i', type=int, required=True) #increment size
-@click.option('--e', type=int, required=True) #end time
+@click.argument('--t', type=str, required=True) #sensor ID
+@click.argument('--b', type=int, required=True) #begin time
+@click.argument('--i', type=int, required=True) #increment size
+@click.argument('--e', type=int, required=True) #end time
 
 
 def get_sensors_history(t, b, i, e):
-    # SamsaraClient instance
+    # Create an instance of the SamsaraClient.
     client = SamsaraClient()
     # Get a sensor's temperature history at specified range 
-    # Values are multiplied by 1000 to get in ms
+	# Values are multiplied by 1000 to get in ms
     end_ms = e*1000 
     step_ms = i
     start_ms = b*1000
-    sensor_id = 212014918225862
+	sensor_id = 212014918225862
     group_id = 25328
-    series = [{"widgetId": sensor_id, "field": "probeTemperature"}]
+    series = [{"widgetId": sensor_id, "field": t}]
     fill_missing = "withNull"
-    
     params = samsara.HistoryParam(group_id, start_ms, end_ms, step_ms, series, fill_missing)
-    access_token = "dYmy4DpauFvADRPpwUxXA57HlvzsvM"
+	access_token = "dYmy4DpauFvADRPpwUxXA57HlvzsvM"
     history = client.get_sensors_history(access_token, params)
-    #write retreived data to csv
+    #write results to csv
     with open('/data/temp.csv', mode='w') as temp_csv:
     temp_writer = csv.writer(temp_csv, delimiter=',', quotechar='"', quoting=csv.QUOTE_MINIMAL)
     for result in history.results:
         temp_writer.writerow([result.time_ms, result.series])
 
+
 if __name__ == "__main__":
     get_sensors_history()
+
 
