@@ -56,7 +56,7 @@ End With
     End Select
 
 ''sens_hist.py call to query update table from csv
-    MsgBox "C:\python27\python.exe " & "C:\scripts\sens_hist.py --t " & Ttype & " --b " & EpochStrt & " --i " & EpochStep & " --e " & EpochStop
+Shell (C:\python27\python.exe " & "C:\scripts\sens_hist.py --t " & Ttype & " --b " & EpochStrt & " --i " & EpochStep & " --e " & EpochStop)
    
    
 ''wait function to allow for script to capture data (10 secs)
