@@ -6,8 +6,6 @@ To use it, run:
 python sens_hist.py --b <BEGIN_TIME> --i <INCREMENT> --e<END_TIME>,
 for example --b 1550858400 --i 60000 --e 1550859000
 passing in sensor ID, begin time, increment size, and end time.
-Next steps: 
-1. process temp type arg to determine temperature type (probe or ambient)
 
 """
 from datetime import datetime
