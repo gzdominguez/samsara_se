@@ -58,6 +58,9 @@ End With
     Shell (Path)
 
 ''wait function to allow for script to capture data (10 secs)
+'' may need to increase this value for larger ranges and data point
+'' to do this increase which ever time unit desired
+'' #12:Minutes:Seconds
 Application.Wait Now + #12:00:10 AM#
 
 ''refresh the power query of the csv file to ensure most recent
