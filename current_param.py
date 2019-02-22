@@ -20,7 +20,9 @@ import click
 @click.command()
 @click.option('--p', type=str, required=True)
 def get_params(p):
-	print("{}\n".format(p))
+	print("\n\n=================================\n")
+	print("      Generating report...".format(p))
+	print("=================================\n")
 	temp_sensor_id = [212014918225862]
 	door_sensor_id = [212014918374028]
 	group_id = 25328
