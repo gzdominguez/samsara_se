@@ -55,7 +55,6 @@ End With
 ''sens_hist.py call to query update table from csv
 ''update the location of the python executable and the sens_hist.py script as necessary
     Path = "C:/Users/gd/AppData/python27/python.exe C:/Users/gd/scripts/sens_hist.py --b " & EpochStrt & " --i " & EpochStep & " --e " & EpochStop
-    MsgBox (Path)
     Shell (Path)
 
 ''wait function to allow for script to capture data (10 secs)
