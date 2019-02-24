@@ -44,6 +44,7 @@ def get_sensors_history(b, i, e):
     path = 'data/temp.csv'
     with open(path, mode='w') as temp_csv:
        temp_writer = csv.writer(temp_csv, delimiter=',', quotechar='"', quoting=csv.QUOTE_MINIMAL)
+       temp_writer.writerow(["timestamp","series"])
        for result in history.results:
             temp_writer.writerow([result.time_ms, result.series])
     print("         Your csv file is generated!\n")
