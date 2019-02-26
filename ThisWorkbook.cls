@@ -54,8 +54,8 @@ End With
     
 ''sens_hist.py call to query update table from csv
 ''update the location of the python executable and the sens_hist.py script as necessary
-    Path = "C:\Users\gd\AppData\python27\python.exe C:\Users\gd\scripts\sens_hist.py --b " & EpochStrt & " --i " & EpochStep & " --e " & EpochStop
-    Shell (Path)
+    Path = "C:\Users\gd\AppData\Enthought\Canopy\User\python.exe C:\Users\gd\scripts\sens_hist.py --b " & EpochStrt & " --i " & EpochStep & " --e " & EpochStop
+    RetVal = Shell (Path)
 
 ''wait function to allow for script to capture data (10 secs)
 '' may need to increase this value for larger ranges and data point
@@ -66,6 +66,7 @@ Application.Wait Now + #12:00:10 AM#
 ''refresh the power query of the csv file to ensure most recent
 '''''''''''''''''''''''''''''''''''''''''''''''''''''
    ThisWorkbook.RefreshAll
+Sheet("temp_history").Columns("D:D").NumberFormat = "m/d/yyyy h:mm"
    
 With Application
     .Calculation = xlCalculationAutomatic
