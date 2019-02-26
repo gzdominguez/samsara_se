@@ -1,5 +1,5 @@
 let
-    Source = Folder.Files("<Path to directory containing csv>"),
+    Source = Folder.Files("<Path to directory containing csv from sens_hist.py script--do not put file name>"),
     #"Filtered Hidden Files1" = Table.SelectRows(Source, each [Attributes]?[Hidden]? <> true),
     #"Invoke Custom Function1" = Table.AddColumn(#"Filtered Hidden Files1", "Transform File from data", each #"Transform File from data"([Content])),
     #"Renamed Columns1" = Table.RenameColumns(#"Invoke Custom Function1", {"Name", "Source.Name"}),
