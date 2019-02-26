@@ -40,8 +40,8 @@ def get_sensors_history(b, i, e):
     params = samsara.HistoryParam(group_id, start_ms, end_ms, step_ms, series, fill_missing)
     access_token = "dYmy4DpauFvADRPpwUxXA57HlvzsvM"
     history = client.get_sensors_history(access_token, params)
-    #write results to csv
-    path = 'data/temp.csv'
+    #write results to csv 
+    path = 'C:\\Users\\gd\\data\\temp.csv'  #use two backslashes to prevent character escape
     with open(path, mode='w') as temp_csv:
        temp_writer = csv.writer(temp_csv, delimiter=',', quotechar='"', quoting=csv.QUOTE_MINIMAL)
        temp_writer.writerow(["timestamp","series"])
